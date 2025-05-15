@@ -1,0 +1,5 @@
+fastapi
+pydantic
+sqlalchemy
+mysql-connector-python==9.1.0
+uvicorn
