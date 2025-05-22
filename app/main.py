@@ -1,17 +1,17 @@
-from fastapi import FastAPI
-from app.database import engine
-from app.models import Base
+from fastapi import FastAPI, Depends
+from sqlalchemy.orm import Session
+from app.database import get_db
 from app.routers import product
+from app.config import Settings
 
 
-Base.metadata.create_all(bind=engine)
+app = FastAPI(title=Settings.PROJECT_NAME, version=Settings.PROJECT_VERSION,
+              description=Settings.PROJECT_DESCRIPTION,
+              openapi_url=Settings.OPENAPI_URL)
 
-app = FastAPI()
 
+@app.get("/ping", tags=['Check'], response_model=str)
+async def ping(db: Session = Depends(get_db)):
+    return "I'm alive"
 
 app.include_router(product.router)
-
-
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to Product API"}

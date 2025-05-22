@@ -1,7 +1,10 @@
 from sqlalchemy import Column, BigInteger, String, Integer, Enum, DateTime
 from sqlalchemy.sql import func
-from app.database import Base
+from sqlalchemy.ext.declarative import declarative_base
 import enum
+
+
+Base = declarative_base()
 
 
 class ProductCategory(enum.Enum):
@@ -23,7 +26,7 @@ class UnitOfMeasure(enum.Enum):
 
 
 class Product(Base):
-    _tablename_ = "products"
+    __tablename__ = "products"
 
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     name = Column(String(100), nullable=False)
